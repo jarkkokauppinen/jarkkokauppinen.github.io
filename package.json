@@ -5,8 +5,9 @@
   "scripts": {
     "build": "npx tsc",
     "deploy": "gh-pages -d build",
-    "test": "npx ts-node index.ts",
-    "start": "node path/index.js"
+    "predeploy": "npm run build",
+    "start": "node path/index.js",
+    "test": "npx ts-node index.ts"
   },
   "keywords": [],
   "author": "Jarkko Kauppinen",

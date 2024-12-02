@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "outDir": "./path",
+    "esModuleInterop": true,
+    "strict": true
+  }
+}

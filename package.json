@@ -5,7 +5,7 @@
   "homepage": "https://jarkkokauppinen.github.io",
   "scripts": {
     "build": "npx tsc",
-    "deploy": "gh-pages -d path",
+    "deploy": "gh-pages -d build",
     "predeploy": "npm run build",
     "start": "node path/index.js",
     "test": "npx ts-node index.ts"

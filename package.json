@@ -2,9 +2,10 @@
   "name": "project",
   "version": "1.0.0",
   "main": "index.js",
+  "homepage": "https://jarkkokauppinen.github.io",
   "scripts": {
     "build": "npx tsc",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d path",
     "predeploy": "npm run build",
     "start": "node path/index.js",
     "test": "npx ts-node index.ts"

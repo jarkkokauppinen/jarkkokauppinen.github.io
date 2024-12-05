@@ -1,7 +1,15 @@
-import './App.css'
+import { Controls } from './components/Controls'
+import { Map } from './components/Map'
+import { Runner } from './components/Runner'
 
 function App() {
-  return <div>HELLO</div>
+  return (
+    <>
+      <Controls />
+      <Map />
+      <Runner />
+    </>
+  )
 }
 
 export default App

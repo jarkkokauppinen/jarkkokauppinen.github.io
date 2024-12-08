@@ -17,10 +17,14 @@ const Button = styled.div`
 `
 
 export const Runner = () => {
+  const run = () => {
+    // ....
+  }
+
   return (
     <Content>
       <Error>Path not found</Error>
-      <Button>Run</Button>
+      <Button onClick={run}>Run</Button>
     </Content>
   )
 }

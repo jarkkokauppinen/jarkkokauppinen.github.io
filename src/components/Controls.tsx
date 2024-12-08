@@ -1,3 +1,4 @@
+import { empty, maps } from '../utils/maps'
 import { styled } from 'styled-components'
 
 const Container = styled.div`
@@ -18,23 +19,41 @@ const Content = styled.div`
   display: flex;
 `
 
-export const Controls = () => {
-  const randomize = () => {
-    // ....
+interface Props {
+  drawing: boolean
+  setDrawing: (value: boolean) => void
+  currentMap: { id: number; map: number[][] }
+  setMap: ({ id, map }: { id: number; map: number[][] }) => void
+}
+
+export const Controls = ({
+  drawing,
+  setDrawing,
+  currentMap,
+  setMap,
+}: Props) => {
+  const clear = () => {
+    setMap({ id: -1, map: empty })
   }
 
-  const clear = () => {
-    // ....
+  const randomize = () => {
+    const random = Math.floor(Math.random() * maps.length)
+    if (currentMap.id === random) return randomize()
+    setMap({ id: random, map: maps[random].map })
+  }
+
+  const handleDrawing = () => {
+    setDrawing(!drawing)
   }
 
   return (
     <Container>
       <Content>
-        <Button onClick={randomize}>Randomize</Button>
         <Button onClick={clear}>Clear</Button>
+        <Button onClick={randomize}>Randomize</Button>
       </Content>
       <Content>
-        <Button>[]</Button>
+        <Button onClick={handleDrawing}>[]</Button>
       </Content>
     </Container>
   )

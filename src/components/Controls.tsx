@@ -1,4 +1,6 @@
 import { empty, maps } from '../utils/maps'
+import { useContext } from 'react'
+import { Context } from '../State'
 import { styled } from 'styled-components'
 
 const Container = styled.div`
@@ -19,31 +21,24 @@ const Content = styled.div`
   display: flex;
 `
 
-interface Props {
-  drawing: boolean
-  setDrawing: (value: boolean) => void
-  currentMap: { id: number; map: number[][] }
-  setMap: ({ id, map }: { id: number; map: number[][] }) => void
-}
+export const Controls = () => {
+  const context = useContext(Context)!
 
-export const Controls = ({
-  drawing,
-  setDrawing,
-  currentMap,
-  setMap,
-}: Props) => {
   const clear = () => {
-    setMap({ id: -1, map: empty })
+    context.setState({ ...context.state, map: { id: -1, content: empty } })
   }
 
   const randomize = () => {
     const random = Math.floor(Math.random() * maps.length)
-    if (currentMap.id === random) return randomize()
-    setMap({ id: random, map: maps[random].map })
+    if (context.state.map.id === random) return randomize()
+    context.setState({
+      ...context.state,
+      map: { id: random, content: maps[random].content },
+    })
   }
 
   const handleDrawing = () => {
-    setDrawing(!drawing)
+    context.setState({ ...context.state, drawing: !context.state.drawing })
   }
 
   return (

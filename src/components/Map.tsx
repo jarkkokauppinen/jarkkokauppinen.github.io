@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useContext, useRef } from 'react'
+import { Context } from '../State'
 import { styled } from 'styled-components'
 // import wall from '../assets/wall.png'
 
@@ -51,37 +52,40 @@ const Circle = styled.div`
   background: red;
 `
 
-interface Props {
-  drawing: boolean
-  currentMap: { id: number; map: number[][] }
-  setMap: ({ id, map }: { id: number; map: number[][] }) => void
-}
-
 const PATHS_PER_BLOCK = 9
 
-export const Map = ({ drawing, currentMap, setMap }: Props) => {
+export const Map = () => {
+  const context = useContext(Context)!
   const refs: React.MutableRefObject<HTMLDivElement[]> = useRef([])
 
+  const draw = () => {
+    console.log('DRAW')
+  }
+
   useEffect(() => {
+    if (context.state.running) draw()
     // refs.current[9].style.background = 'green'
     // refs.current[12].style.borderRadius = '50% 0 0 50%'
-  }, [])
+  }, [context.state.running])
 
   const handleBlock = (row: number, block: number) => {
     const updatedMap: number[][] = []
 
-    currentMap.map.forEach((r, i) => {
+    context.state.map.content.forEach((r, i) => {
       const newRow = [...r]
-      if (i === row) newRow[block] = drawing ? 1 : 0
+      if (i === row) newRow[block] = context.state.drawing ? 1 : 0
       updatedMap.push(newRow)
     })
 
-    setMap({ id: currentMap.id, map: updatedMap })
+    context.setState({
+      ...context.state,
+      map: { id: context.state.map.id, content: updatedMap },
+    })
   }
 
   const renderCircle = (row: number, block: number) => {
-    const lastRow = currentMap.map.length - 1
-    const lastBlock = currentMap.map[0].length - 1
+    const lastRow = context.state.map.content.length - 1
+    const lastBlock = context.state.map.content[0].length - 1
     if ((row === 0 && block === 0) || (row === lastRow && block === lastBlock))
       return (
         <CircleParent>
@@ -93,7 +97,7 @@ export const Map = ({ drawing, currentMap, setMap }: Props) => {
 
   return (
     <Background>
-      {currentMap.map.map((row, rowIndex) => (
+      {context.state.map.content.map((row, rowIndex) => (
         <Row key={rowIndex}>
           {row.map((block, blockIndex) => (
             <div key={Math.random()}>

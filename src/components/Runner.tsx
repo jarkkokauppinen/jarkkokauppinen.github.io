@@ -1,3 +1,5 @@
+import { useContext } from 'react'
+import { Context } from '../State'
 import { styled } from 'styled-components'
 
 const Content = styled.div`
@@ -17,8 +19,10 @@ const Button = styled.div`
 `
 
 export const Runner = () => {
+  const context = useContext(Context)!
+
   const run = () => {
-    // ....
+    context.setState({ ...context.state, running: true })
   }
 
   return (

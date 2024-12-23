@@ -8,12 +8,20 @@ const Container = styled.div`
   justify-content: space-between;
 `
 
-const Button = styled.div`
-  cursor: default;
-  border: 4px solid darkblue;
-  padding: 4px;
+const Button = styled.div<{ $running: boolean; $marginRight?: string }>`
+  border: 1px solid lightgray;
+  background: lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 23px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-right: ${(props) => props.$marginRight};
   &:hover {
-    background: lightblue;
+    background: ${(props) => !props.$running && 'darkgray'};
+    border: ${(props) => !props.$running && '1px solid darkgray'};
   }
 `
 
@@ -25,30 +33,41 @@ export const Controls = () => {
   const context = useContext(Context)!
 
   const clear = () => {
-    context.setState({ ...context.state, map: { id: -1, content: empty } })
-  }
+    if (context.state.running) return
 
-  const randomize = () => {
-    const random = Math.floor(Math.random() * maps.length)
-    if (context.state.map.id === random) return randomize()
     context.setState({
       ...context.state,
-      map: { id: random, content: maps[random].content },
+      map: { id: -1, content: empty },
+      error: '',
     })
   }
 
-  const handleDrawing = () => {
-    context.setState({ ...context.state, drawing: !context.state.drawing })
+  const randomize = () => {
+    if (context.state.running) return
+
+    const random = Math.floor(Math.random() * maps.length)
+    if (context.state.map.id === random) return randomize()
+
+    context.setState({
+      ...context.state,
+      map: { id: random, content: maps[random].content },
+      error: '',
+    })
   }
 
   return (
     <Container>
       <Content>
-        <Button onClick={clear}>Clear</Button>
-        <Button onClick={randomize}>Randomize</Button>
-      </Content>
-      <Content>
-        <Button onClick={handleDrawing}>[]</Button>
+        <Button
+          onClick={clear}
+          $running={context.state.running}
+          $marginRight='5px'
+        >
+          <kbd>Clear</kbd>
+        </Button>
+        <Button onClick={randomize} $running={context.state.running}>
+          <kbd>Randomize</kbd>
+        </Button>
       </Content>
     </Container>
   )

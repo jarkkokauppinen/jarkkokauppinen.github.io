@@ -7,14 +7,25 @@ const Content = styled.div`
   justify-content: space-between;
 `
 
-const Error = styled.div``
+const Error = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 6px;
+  color: white;
+`
 
-const Button = styled.div`
-  cursor: default;
-  border: 4px solid darkblue;
-  padding: 4px;
+const Button = styled.div<{ $running: boolean }>`
+  border: 1px solid lightgray;
+  background: lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 23px;
+  margin-top: 5px;
   &:hover {
-    background: lightblue;
+    background: ${(props) => !props.$running && 'darkgray'};
+    border: ${(props) => !props.$running && '1px solid darkgray'};
   }
 `
 
@@ -22,13 +33,18 @@ export const Runner = () => {
   const context = useContext(Context)!
 
   const run = () => {
-    context.setState({ ...context.state, running: true })
+    if (context.state.running) return
+    context.setState({ ...context.state, running: true, error: '' })
   }
 
   return (
     <Content>
-      <Error>Path not found</Error>
-      <Button onClick={run}>Run</Button>
+      <Error>
+        <kbd>{context.state.error}</kbd>
+      </Error>
+      <Button onClick={run} $running={context.state.running}>
+        <kbd>Run</kbd>
+      </Button>
     </Content>
   )
 }

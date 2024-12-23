@@ -1,10 +1,16 @@
 import { createContext, useState } from 'react'
 import { maps } from './utils/maps'
 
+interface Map {
+  id: number
+  content: number[][]
+}
+
 interface State {
-  map: { id: number; content: number[][] }
+  map: Map
   drawing: boolean
   running: boolean
+  error: string
 }
 
 interface Context {
@@ -16,6 +22,7 @@ const currentState = {
   map: maps[Math.floor(Math.random() * maps.length)],
   drawing: true,
   running: false,
+  error: '',
 }
 
 const Context = createContext<Context | null>(null)

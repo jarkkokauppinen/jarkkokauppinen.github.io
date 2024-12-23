@@ -1,0 +1,7 @@
+body {
+  margin: 0;
+  display: flex;
+  user-select: none;
+  justify-content: center;
+  background: radial-gradient(rgb(1, 43, 36), rgb(12, 93, 97));
+}
